@@ -11,13 +11,50 @@ conn.close()
 correct = 0
 wrong = 0
 
+# c{prediction}{class}
+confusion = {
+    'c00': 0,
+    'c01': 0,
+    'c10': 0,
+    'c11': 0,
+}
+
+test = range(512, 640)
+counter = 0
+
 for row in data:
+    if counter not in test:
+        counter+=1
+        continue
+
+    counter+=1
+
     _class = row['class']
     predicted = predict(row['data'])
     if (_class == predicted):
         correct+=1
     else:
         wrong+=1
+    
+    index = f'c{predicted}{_class}'
+    confusion[index] += 1
+
 
 print(correct)
 print(wrong)
+
+print('Accuracy:')
+print(correct/(correct + wrong))
+
+print('Precision:')
+precision = confusion['c11'] / (confusion['c11'] + confusion['c10'])
+print(precision)
+
+print('Recall:')
+recall = confusion['c11'] / (confusion['c11'] + confusion['c01'])
+print(recall)
+
+print('F score:')
+f_score = 2*precision*recall/(precision+recall)
+print(f_score)
+

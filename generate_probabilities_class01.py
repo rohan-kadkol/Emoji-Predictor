@@ -43,14 +43,20 @@ for i in range(constants.NUM_CLASSES):
         'c': 0,
     }
 
-# limit = 10
-# counter = 0
+train = range(0, 512)
+counter = 0
 
 for record in data:
     # if (counter < limit):
     #     counter+=1
     # else:
     #     continue
+
+    if counter not in train:
+        counter+=1
+        continue
+
+    counter+=1
 
     _class = record['class']
     classes[record['class']]['c'] += 1
